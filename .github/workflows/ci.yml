@@ -38,7 +38,7 @@ jobs:
         (platform.processor()) 
       shell: python  
 
-    run-on-windows-commands:
+    run-windows-commands:
       runs-on: windows-latest
       steps:
         - name: Directory PowerShell

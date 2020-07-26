@@ -2,10 +2,11 @@ name: ShellCommands
 
 on: 
   push:
-    branch: develop
+    branches : [develop]
 
 jobs: 
-  run-shell-command: 
+  build:
+   run-shell-command: 
     runs-on: ubuntu:latest
     steps: 
       - name: echo a string

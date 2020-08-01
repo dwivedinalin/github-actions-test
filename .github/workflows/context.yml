@@ -2,14 +2,28 @@ name: Context
 on: push
 
 jobs:
+  functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: dump
+        run: |
+          echo ${{ contains('hello','ll') }}
+          echo ${{ startswith('Hello','he') }}
+          echo ${{ endswith('hello','lo') }}
+          echo ${{ format('Hello {0} {1} {2}', 'World', '!', '!') }}
+
   one:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+        continue-on-error: true
+        
       - name: Dump job context
+        if: failure()
         env:
           JOB_CONTEXT: ${{ toJson(job) }}
         run: echo "$JOB_CONTEXT"
@@ -18,6 +32,7 @@ jobs:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEPS_CONTEXT"
       - name: Dump runner context
+        if: always()
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
         run: echo "$RUNNER_CONTEXT"
